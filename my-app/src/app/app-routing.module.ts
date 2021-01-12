@@ -1,20 +1,19 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
-
+import { EventsComponent } from './pages/events/events.component';
+import { PricelistComponent } from './pages/pricelist/pricelist.component'
+import { CatalogComponent } from './pages/catalog/catalog.component'
+import { RequestsComponent } from './pages/requests/requests.component'
 
 /**
  * Задаются пути до компонентов
  */
 const routes: Routes = [
-    {
-      path: 'root',
-      loadChildren: () => import('./pages/root/root.module').then((m => m.RootModule)),
-    },
-    {
-      path: 'calc',
-      loadChildren: () => import('./pages/calculation/calculation.module').then((m => m.CalculationModule)),
-    }
-  ]
+  { path: 'events', component: EventsComponent },
+  { path: 'pricelist', component: PricelistComponent },
+  { path: 'catalog', component: CatalogComponent },
+  { path: 'requests', component: RequestsComponent }
+]
 ;
 
 @NgModule({

@@ -16,11 +16,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
   }
 
-  route(){
-      this.router.navigate(['/root']);
-  }
-
-  routeToAdmin(){
-    this.router.navigate(['/calc']);
+  route(page_name : string){
+      this.router.navigate([page_name]);
   }
 }

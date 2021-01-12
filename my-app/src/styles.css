@@ -1,1 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
+.bg {
+    /* The image used */
+    background-image: url("https://gtrk.tv/sites/default/files/news/93272/preview-486214040.jpg");
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: auto;
+  }
+
+footer {
+    display: flex;
+    width: 100%;
+    padding: 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    background-color: #c3d9ef;
+    border-top: 1px solid gray;
+    justify-content: flex-end;
+  }
+
+.main_content{
+    margin-left: 10%; 
+    margin-right: 10%; 
+    height: 1000px;
+    background-color: #c3d9ef;
+}

@@ -11,12 +11,20 @@ import { RestService } from './services/rest.service';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CheckboxModule, WavesModule, ButtonsModule } from 'angular-bootstrap-md'
+import { CheckboxModule, WavesModule, ButtonsModule } from 'angular-bootstrap-md';
+import { EventsComponent } from './pages/events/events.component';
+import { PricelistComponent } from './pages/pricelist/pricelist.component'
+import { CatalogComponent } from './pages/catalog/catalog.component'
+import { RequestsComponent } from './pages/requests/requests.component'
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    EventsComponent,
+    PricelistComponent,
+    CatalogComponent,
+    RequestsComponent
   ],
   imports: [
     BrowserModule,

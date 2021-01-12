@@ -1,13 +1,30 @@
-<div class="header-class" style="padding-right: 50px; padding-left: 50px;">
-  <table>
-    <tr><td style = "height: 10px;">Вы вошли как ЛОХ</td></tr>
-      <td>
-        <button type="button" class="btn btn-primary" (click)="routeToAdmin()">Админское место</button>
-      </td>
-      <td style = "width: 10px;"></td>
-      <td>
-        <button type="button" class="btn btn-primary" (click)="route()">Рабочее место</button>
-      </td>
-    <tr><td style = "height: 10px;"></td></tr>
-  </table>
+<div class="header-class">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2" style="padding: 0px;">
+        <button type="button" mdbBtn color="link" (click)="route('/pricelist')">Прайс Лист</button>
+      </div>
+      <div class="col-md-2" style="padding: 0px;">
+        <button type="button" mdbBtn color="link" (click)="route('/events')">Мероприятия</button>
+      </div>
+      <div class="col-md-2" style="padding: 0px;">
+        <button type="button" mdbBtn color="link" (click)="route('/catalog')">Мои ресурсы</button>
+      </div>
+      <div class="col-md-2" style="padding: 0px;">
+        <button type="button" mdbBtn color="link" (click)="route('/requests')">Запросы</button>
+      </div>
+      <div class="col-md-2" [hidden]=true style="padding: 0px;">
+        <button type="button" mdbBtn color="link">Вход</button>
+      </div>
+      <div class="col-md-2" [hidden]=true style="padding: 0px;">
+        <button type="button" mdbBtn color="link">Регистрация</button>
+      </div>
+      <div class="col-md-2" [hidden]=false style="padding: 0px;">
+        <div class="my-class1">Вы лохопедище</div>
+      </div>
+      <div class="col-md-2" [hidden]=false style="padding: 0px;">
+        <button type="button" mdbBtn color="link">Выйти</button>
+      </div>
+    </div>
+  </div>
 </div>

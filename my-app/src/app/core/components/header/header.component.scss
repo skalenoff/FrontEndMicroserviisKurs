@@ -1,0 +1,14 @@
+.header-class {
+  display: flex;
+  width: 100%;
+  padding: 0px;
+  font-size: 14px;
+  line-height: 1.5;
+  background-color: #c3d9ef;
+  border-bottom: 1px solid gray;
+  justify-content: flex-end;
+}
+table{
+  text-align: right; // Для выравнивания содержимого таблицы по центру по горизонтали
+  vertical-align: middle; // Для выравнивания содержимого таблицы по центру по вертикали
+}

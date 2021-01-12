@@ -1,0 +1,14 @@
+table{
+    text-align: left; // Для выравнивания содержимого таблицы по центру по горизонтали
+    vertical-align: center; // Для выравнивания содержимого таблицы по центру по вертикали
+    margin: auto;
+    width: 100%;
+}
+tr{
+    vertical-align: middle;
+    text-align: center;
+}
+th{
+    vertical-align: middle;
+    text-align: center;
+}

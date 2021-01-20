@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
-import {SessionStorageService} from 'ngx-webstorage';
+import {LocalStorageService, SessionStorageService} from 'ngx-webstorage';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
 
-  constructor(private sessionStorageService: SessionStorageService) {
+  constructor(private sessionStorageService: SessionStorageService, private localStorageService: LocalStorageService) {
   }
 
   /**
@@ -22,6 +22,14 @@ export class SessionService {
     }
   }
 
+  public setLocalParam(paramName: string, data: any) {
+    if (!data) {
+      this.localStorageService.clear(paramName);
+    } else {
+      this.localStorageService.store(paramName, JSON.stringify(data));
+    }
+  }
+
   /**
    * Получение параметра
    * @param paramName - имя параметра
@@ -34,4 +42,11 @@ export class SessionService {
     return null;
   }
 
+  public getLocalParam(paramName: string) {
+    const paramValue = this.localStorageService.retrieve(paramName);
+    if (paramValue) {
+      return JSON.parse(paramValue);
+    }
+    return null;
+  }
 }

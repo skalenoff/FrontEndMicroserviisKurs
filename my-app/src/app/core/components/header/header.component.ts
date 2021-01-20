@@ -1,5 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import { Component, Input, OnInit, SystemJsNgModuleLoader } from '@angular/core';
+import { Router } from '@angular/router';
+import { OAuthService } from 'angular-oauth2-oidc';
+import { SessionService } from '../../../services/session.service';
 
 @Component({
   selector: 'app-header',
@@ -9,8 +11,10 @@ import {Router} from '@angular/router';
 export class HeaderComponent implements OnInit {
 
   userName = 'Войти';
+  login: string;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private oauthService : OAuthService, private sessionService : SessionService) {
+    this.login = JSON.parse(localStorage.id_token_claims_obj).name;
   }
 
   ngOnInit() {
@@ -19,4 +23,9 @@ export class HeaderComponent implements OnInit {
   route(page_name : string){
       this.router.navigate([page_name]);
   }
+
+  logout() {
+    this.oauthService.logOut();
+  }
+
 }

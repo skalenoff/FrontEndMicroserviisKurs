@@ -16,6 +16,7 @@ import { EventsComponent } from './pages/events/events.component';
 import { PricelistComponent } from './pages/pricelist/pricelist.component'
 import { CatalogComponent } from './pages/catalog/catalog.component'
 import { RequestsComponent } from './pages/requests/requests.component'
+import {AppInitModule} from './app-init/app-init.module'
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { RequestsComponent } from './pages/requests/requests.component'
     NgSelectModule,
     CheckboxModule, 
     WavesModule, 
-    ButtonsModule
+    ButtonsModule,
+    AppInitModule
   ],
   providers: [RestService],
   bootstrap: [AppComponent]

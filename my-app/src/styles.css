@@ -22,8 +22,8 @@ footer {
   }
 
 .main_content{
-    margin-left: 10%; 
-    margin-right: 10%; 
+    margin-left: 5%; 
+    margin-right: 5%; 
     height: 1000px;
-    background-color: #c3d9ef;
+    background-color: white;
 }

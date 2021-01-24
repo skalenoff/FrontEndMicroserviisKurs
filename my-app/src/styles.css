@@ -29,3 +29,8 @@ footer {
     height: 1000px;
     background-color: white;
 }
+
+.plitochka{
+  background-color: gray;
+  margin: 5%;
+}

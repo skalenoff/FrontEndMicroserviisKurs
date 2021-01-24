@@ -10,6 +10,6 @@ export class AppComponent {
   title = 'my-app';
 
   constructor(private router: Router) {
-    //this.router.navigate(['/root']);
+    this.router.navigate(['/pricelist']);
   }
 }

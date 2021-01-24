@@ -1,7 +1,7 @@
-import { Component, Input, OnInit, SystemJsNgModuleLoader } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
-import { OAuthService } from 'angular-oauth2-oidc';
-import { SessionService } from '../../../services/session.service';
+import { AuthService } from '../../../services/auth.service';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 @Component({
   selector: 'app-header',
@@ -10,11 +10,15 @@ import { SessionService } from '../../../services/session.service';
 })
 export class HeaderComponent implements OnInit {
 
-  userName = 'Войти';
-  login: string;
-
-  constructor(private router: Router, private oauthService : OAuthService, private sessionService : SessionService) {
-    this.login = JSON.parse(localStorage.id_token_claims_obj).name;
+  public login: string;
+  public isAdmin: boolean;
+  public isBuyer: boolean;
+  public isCustomer: boolean;
+  constructor(private router: Router, private oauthService : AuthService) {
+    this.login = oauthService.getLogin();
+    this.isAdmin = oauthService.isAdmin();
+    this.isBuyer = oauthService.isBuyer();
+    this.isCustomer = oauthService.isCustomer();
   }
 
   ngOnInit() {
@@ -25,7 +29,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    this.oauthService.logOut();
+    this.oauthService.logout();
   }
-
+  
 }

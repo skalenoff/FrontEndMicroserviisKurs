@@ -1,3 +1,28 @@
-<p>pricelist works!</p>
-<button type="button" mdbBtn color="link" (click)="_getFruits()">Try GET!!!</button>
-<button type="button" mdbBtn color="link" (click)="_postFruits()">Try POST!!!</button>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12" style="height: 10px;"></div>
+        <div class="col-md-2">
+            <select class="browser-default custom-select" [(ngModel)]="customer" name="customer">
+                <option *ngFor="let customer of customers; " value="{{customer.id}}">{{customer.name}}</option>
+            </select>
+            <div class="col-md-12" style="height: 10px;"></div>
+            <select class="browser-default custom-select" [(ngModel)]="type" name="type">
+                <option *ngFor="let type of types; " value="{{type.id}}">{{type.name}}</option>
+            </select>
+            <button type="button" class="btn btn-primary" (click)="logCustomerAndType()">
+                Применить фильтр
+            </button>
+            <button type="button" class="btn btn-primary" (click)="getFruits()">
+                ГЕТить
+            </button>
+            <button type="button" class="btn btn-primary" (click)="postFruits()">
+                ПОСТить
+            </button>
+        </div>
+        <div class="col-md-10">
+            <div class="Content">
+
+            </div>
+        </div>
+    </div>
+</div>

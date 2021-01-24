@@ -1,1 +1,22 @@
-<p>catalog works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12" style="height: 10px;"></div>
+        <div class="col-md-2">
+            <select class="browser-default custom-select" [(ngModel)]="customer" name="customer" [disabled]="!isAdmin">
+                <option *ngFor="let customer of customers; " value="{{customer.id}}">{{customer.name}}</option>
+            </select>
+            <div class="col-md-12" style="height: 10px;"></div>
+            <select class="browser-default custom-select" [(ngModel)]="type" name="type">
+                <option *ngFor="let type of types; " value="{{type.id}}">{{type.name}}</option>
+            </select>
+            <button type="button" class="btn btn-primary" (click)="logCustomerAndType()">
+                Применить фильтр
+            </button>
+        </div>
+        <div class="col-md-10">
+            <div class="Content">
+                Плиточка с товарами
+            </div>
+        </div>
+    </div>
+</div>

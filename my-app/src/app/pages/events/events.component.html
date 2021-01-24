@@ -1,1 +1,25 @@
-<p>events works!</p>
+<div class="container">
+    <div class="row" >
+        <div class="col-md-12" style="height: 10px;"></div>
+        <div class="col-md-2">
+            <select class="browser-default custom-select" [(ngModel)]="month" name="month">
+                <option *ngFor="let month of months; " value="{{month.id}}">{{month.name}}</option>
+            </select>
+            <div class="col-md-12" style="height: 10px;"></div>
+            <select class="browser-default custom-select" [(ngModel)]="buyer" name="buyer" [disabled] = "!isAdmin">
+                <option *ngFor="let buyer of buyers; " value="{{buyer.id}}">{{buyer.name}}</option>
+            </select>
+            <button type="button" class="btn btn-primary" (click)="logCustomerAndType()" >
+                Применить фильтр
+            </button>
+            <button type="button" class="btn btn-primary" (click)="logCustomerAndType()" >
+                Скачать счет
+            </button>
+        </div>
+        <div class="col-md-10">
+            <div class="Content">
+                Список завершенных заказиков 
+            </div>
+        </div>
+    </div>
+</div>

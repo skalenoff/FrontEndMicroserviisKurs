@@ -1,4 +1,24 @@
 {
+    "/api/users/me": {
+        "target": {
+            "host": "localhost",
+            "protocol": "http:",
+            "port": 8080
+        },
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "info"
+    },
+    "/api/admin": {
+        "target": {
+            "host": "localhost",
+            "protocol": "http:",
+            "port": 8080
+        },
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "info"
+    },
     "/fruits": {
         "target": {
             "host": "localhost",
@@ -9,7 +29,7 @@
         "changeOrigin": true,
         "logLevel": "info"
     },
-    "http://192.168.16.136:8080/auth/realms/quarkus":{
+    "http://192.168.16.136:8080/auth/realms/quarkus": {
         "target": {
             "host": "192.168.16.136/auth/realms/quarkus",
             "protocol": "http:",

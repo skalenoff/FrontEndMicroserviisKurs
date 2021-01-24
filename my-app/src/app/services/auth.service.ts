@@ -13,10 +13,36 @@ export class AuthService {
   get decodedAccessToken() { return this._decodedAccessToken; }
   get decodedIDToken() { return this._decodedIDToken; }
 
+  userName = 'Войти';
+  public login: string = "";
+  private role: Role = Role.customer;
+  public isBuyer(): boolean {
+    this.role = JSON.parse(localStorage.getItem("id_token_claims_obj") + "").user_role
+    console.log(this.role)
+    return (this.role == Role.buyer);
+  };
+  public isCustomer(): boolean{
+    this.role = JSON.parse(localStorage.getItem("id_token_claims_obj") + "").user_role
+    return (this.role == Role.customer);
+  };
+  public isAdmin(): boolean{
+    this.role = JSON.parse(localStorage.getItem("id_token_claims_obj") + "").user_role
+    return (this.role == Role.admin);
+  };
+  public getLogin() : string{
+    return JSON.parse(localStorage.getItem("id_token_claims_obj") + "").name
+  }
+
   constructor(
     private readonly oauthService: OAuthService,
     private readonly authConfig: AuthConfig
-  ) {}
+  ) {
+
+  }
+
+  public logout() {
+    this.oauthService.logOut();
+  }
 
   async initAuth(): Promise<any> {
     return new Promise<void>((resolveFn, rejectFn) => {
@@ -52,6 +78,12 @@ export class AuthService {
     this._decodedIDToken = this.oauthService.getIdToken();
   }
 
+}
+
+enum Role {
+  admin = "[AngularAdmin]",
+  customer = "[Customer]",
+  buyer = "[buyer]"
 }
 
 export const authConfig: AuthConfig = {

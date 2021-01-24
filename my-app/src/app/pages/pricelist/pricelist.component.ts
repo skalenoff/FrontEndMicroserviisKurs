@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SystemJsNgModuleLoader } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/internal/operators/map';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
+import { RestService } from 'src/app/services/rest-service.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 @Component({
   selector: 'app-pricelist',
@@ -12,65 +15,70 @@ import { catchError, retry } from 'rxjs/operators';
 export class PricelistComponent implements OnInit {
 
 
-  url = '/fruits';
-  fruit!: Fruit[];
+  customer:number = 1;
+  customers = [
+    {
+      id: 1,
+      name: "Customer 1"
+    },
+    {
+      id: 2,
+      name: "Customer 2"
+    },
+    {
+      id: 3,
+      name: "Customer 3"
+    },
+    {
+      id: 4,
+      name: "Customer 4"
+    },
+    {
+      id: 5,
+      name: "Customer 5"
+    }
+  ]
 
+  type:number = 1;
+  types = [
+    {
+      id: 1,
+      name: "type 1"
+    },
+    {
+      id: 2,
+      name: "type 2"
+    },
+    {
+      id: 3,
+      name: "type 3"
+    },
+    {
+      id: 4,
+      name: "type 4"
+    },
+    {
+      id: 5,
+      name: "type 5"
+    }
+  ]
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private restService : RestService, private authService : OAuthService) { }
 
   ngOnInit(): void {
   }
 
-  _getFruits(){
-    this.getFruits().subscribe(data => {
-    }, error => {
-      console.log(error);
-    });
-  }
 
   getFruits(){
-    //const endpoint = '/fruits';
-    const endpoint = this.url;
-    console.log("GET, " + endpoint)
-    return this.http.get(endpoint, { headers: new HttpHeaders( {'Content-Type': 'application/json; charset=UTF-8'} )})
-    .pipe(
-      map((res:any) => {
-      this.fruit = res;
-      console.log("Загружено чтто-то");
-      console.log(this.fruit);
-      return true; })
-      );
-  }
-
-  _postFruits(){
-    this.postFruits().subscribe(data => {
-    }, error => {
-      console.log(error);
-    });
+    this.restService.doGet('/api/users/me')
   }
 
   postFruits(){
-    //const endpoint = '/fruits';
-    const endpoint = this.url;
-    console.log("GET, " + endpoint)
-
-    const request = {
-      description: "Hellow Quarkus!",
-      name: "Angular"
-    };
-
-    return this.http.post(endpoint, request, { headers: new HttpHeaders( {'Content-Type': 'application/json; charset=UTF-8'} )})
-    .pipe(
-      map((res:any) => {
-      this.fruit = res;
-      console.log("Загружено чтто-то");
-      console.log(this.fruit);
-      return true; })
-      );
+    const params = this.authService.getAccessToken;
+    this.restService.doGet('/api/admin');
   }
-}
 
-export interface Fruit {
-  description: string;
-  name: string;
+  logCustomerAndType(){
+    console.log(this.customer, " | " ,this.type)
+  }
 }

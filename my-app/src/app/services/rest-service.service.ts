@@ -7,17 +7,9 @@ import { OAuthService } from 'angular-oauth2-oidc';
   providedIn: 'root'
 })
 export class RestService {
-
-  private jsonHeaders = new HttpHeaders(
-    {
-      'Content-Type' : 'application/json; charset=UTF-8',
-      'Authorization' : ('Bearer ' + this.auth.getAccessToken())
-    }
-    );
-
   constructor(private http: HttpClient, private auth : OAuthService) {
   }
-  private response : any;
+  private response: any;
   getRes() : any {
     return this.response;
   }
@@ -27,21 +19,24 @@ export class RestService {
    * @param params - параметры
    */
 
-  doGet(url: string) {
-    this._doGet(url).subscribe(data => {
-    }, error => {
-      console.log(error);
-    });
-    return this.response;
+  doGet(url: string) : any {
+
+    this._doGet(url).subscribe(
+      data => { return data  }, 
+      error => {  console.log(error)  }
+      );
   }
 
   public _doGet(url: string) {
-    console.log("GET, " + url)
-    console.log(this.jsonHeaders)
-    return this.http.get(url, { headers: this.jsonHeaders })
-      .pipe(
-        map((res: any) => {
-          console.log("Загружено что-то");
+    const jsonHeaders = new HttpHeaders(
+      {
+        'Content-Type' : 'application/json; charset=UTF-8',
+        'Authorization' : ('Bearer ' + this.auth.getAccessToken())
+      }
+      );
+    return this.http.get(url, { headers: jsonHeaders })
+      .pipe(map((res: any) => {
+        console.log("Метод", url);
           console.log(res);
           this.response = res;
           return res;
@@ -49,23 +44,26 @@ export class RestService {
       );
   }
 
-  doPost(url: string, params: any) {
-    this._doPost(url, params).subscribe(data => {
-    }, error => {
-      console.log(error);
-    });
-    return this.response;
+  doPost(url: string, params: any) : any{
+    this._doPost(url, params).subscribe(data => {return data}, error => {console.log(error)});
   }
 
   public _doPost(url : string, params: any) {
+    const jsonHeaders = new HttpHeaders(
+      {
+        'Content-Type' : 'application/json; charset=UTF-8',
+        'Authorization' : ('Bearer ' + this.auth.getAccessToken())
+      }
+      );
     const options = {
-      headers: this.jsonHeaders,
+      headers: jsonHeaders,
       body: params,
       withCredentials: true
     };
-    return this.http.post(url, params,{ headers: this.jsonHeaders })
+    return this.http.post(url, params,{ headers: jsonHeaders })
       .pipe(map((response) => {
-        console.log("Загружено что-то");
+        console.log("Метод", url);
+        console.log(params);
         console.log(response)
         this.response = response;
         return response;

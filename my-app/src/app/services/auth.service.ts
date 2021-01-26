@@ -15,29 +15,28 @@ export class AuthService {
 
   userName = 'Войти';
   public login: string = "";
-  private role: Role = Role.customer;
+  private role: String = "";
   public isBuyer(): boolean {
     this.role = JSON.parse(localStorage.getItem("id_token_claims_obj") + "").user_role
-    console.log(this.role)
-    return (this.role == Role.buyer);
+    return (this.role.includes(Role.buyer));
   };
   public isCustomer(): boolean{
     this.role = JSON.parse(localStorage.getItem("id_token_claims_obj") + "").user_role
-    return (this.role == Role.customer);
+    return (this.role.includes(Role.customer));
   };
   public isAdmin(): boolean{
     this.role = JSON.parse(localStorage.getItem("id_token_claims_obj") + "").user_role
-    return (this.role == Role.admin);
+    return (this.role.includes(Role.admin));
   };
   public getLogin() : string{
     return JSON.parse(localStorage.getItem("id_token_claims_obj") + "").name
+
   }
 
   constructor(
     private readonly oauthService: OAuthService,
     private readonly authConfig: AuthConfig
   ) {
-
   }
 
   public logout() {
@@ -81,9 +80,9 @@ export class AuthService {
 }
 
 enum Role {
-  admin = "[AngularAdmin]",
-  customer = "[Customer]",
-  buyer = "[buyer]"
+  admin = "angular-admin",
+  customer = "angular-customer",
+  buyer = "angular-buyer"
 }
 
 export const authConfig: AuthConfig = {

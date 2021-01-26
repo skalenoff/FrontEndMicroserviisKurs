@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
+import { RestService } from 'src/app/services/rest-service.service';
 
 @Component({
   selector: 'app-requests',
@@ -8,45 +9,61 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class RequestsComponent implements OnInit {
   isAdmin: boolean;
-  buyer: number = 1;
-  month: number = 1;
-  buyers = [
-    {
-      id: 1,
-      name: "Sanya"
-    },
-    {
-      id: 2,
-      name: "Danya"
-    },
-    {
-      id: 3,
-      name: "Lena"
-    }
-  ]
-  months = [
-    {
-      id: 1,
-      name: "Dec 2022"
-    },
-    {
-      id: 2,
-      name: "Jan 2021"
-    },
-    {
-      id: 3,
-      name: "Feb 2022"
-    }
-  ]
-  constructor(private oauthService : AuthService) {
+  isBuyer: boolean
+
+  items: BusketItem[] = [];
+
+  constructor(private oauthService : AuthService, private restService : RestService) {
+    
     this.isAdmin = oauthService.isAdmin();
-    this.isAdmin = oauthService.isAdmin();
+    this.isBuyer = oauthService.isBuyer();
+
+    this.getBusket();
+  }
+
+  getBusket(){
+    this.restService._doGet("/priceList/getBuyersBasket").subscribe(
+      data => { this.items = data },
+      error => { console.log(error) }
+    );
+  }
+
+  deleteFromBusket(obj : BusketItem){
+    this.restService._doPost("/priceList/deleteItemFromBasket", obj).subscribe(
+      data => { 
+        console.log(data)
+        this.getBusket(); 
+      },
+      error => { console.log(error) }
+    );
+    
+  }
+
+  saveToBusket(obj : BusketItem){
+    this.restService._doPost("/priceList/updateItemInBasket", obj).subscribe(
+      data => { 
+        this.getBusket();
+        console.log(data)
+      },
+      error => { console.log(error) }
+    );
+    
   }
 
   ngOnInit(): void {
   }
 
-  logCustomerAndType(){
-    console.log(this.buyer, " | " , this.month)
-  }
+
 }
+
+export class BusketItem{
+  customerName: String = "";
+  offeringName: String = "";
+  offeringDescription: String = "";
+  offeringMaxCount: number = 0;
+  offeringStatus: boolean = false;
+  offeringType: String = "";
+  offeringPrice: number = 0;
+  count: number = 0;
+  buyer: String = ""; 
+  }

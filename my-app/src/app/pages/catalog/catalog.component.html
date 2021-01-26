@@ -3,77 +3,124 @@
         <div class="col-md-12" style="height: 10px;"></div>
         <div class="col-md-2">
             <select class="browser-default custom-select" [(ngModel)]="customer" name="customer" [disabled]="!isAdmin">
-                <option *ngFor="let customer of customers; " value="{{customer}}">{{customer.name}}</option>
+                <option *ngFor="let customer of customers; " value="{{customer}}">{{customer}}</option>
             </select>
             <div class="col-md-12" style="height: 10px;"></div>
             <select class="browser-default custom-select" [(ngModel)]="type" name="type">
-                <option *ngFor="let type of types; " value="{{type}}">{{type.name}}</option>
+                <option *ngFor="let type of types; " value="{{type}}">{{type}}</option>
             </select>
             <button type="button" class="btn btn-primary" (click)="accessFilter()">
                 Применить фильтр
             </button>
+
+            <button type="button" class="btn btn-primary" (click)="redactNak()" [disabled]="!isAdmin">
+                Накрутки
+            </button>
+
         </div>
         <div class="col-md-10">
-            <div class="Content" [hidden]="redact">
+            <div class="Content" [hidden]="redact || redactN">
                 <div class="row">
-                    <div class="col-md-3" *ngFor="let off of offerings;">
-                        <div class="plitochka">
-                            <div>{{off.id}}</div>
-                            <div>{{off.name}}</div>
-                            <div>{{off.discription}}</div>
-                            <div>{{off.maxCount}}</div>
-                            <div>{{off.type.name}}</div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <button type="button" class="btn btn-primary btn-sm" (click)="red(off)">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                            <path
-                                                d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                            <path fill-rule="evenodd"
-                                                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                                        </svg>
-                                    </button>
-                                </div>
-                                <div class="col-md-6">
-                                    <button type="button" class="btn btn-danger btn-sm" (click)="delete(off)">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                            <path
-                                                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
-                                            <path fill-rule="evenodd"
-                                                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-md-3 plitochka">
+                        <button type="button" class="btn btn-outline-primary plitochka" (click)="newOffering()"
+                            style="height: 95%; margin-bottom: 5%;">
+                            Добавить предложение
+                        </button>
+                    </div>
+                    <div class="col-md-3 plitochka" *ngFor="let off of offerings;">
+
+                        <button type="button" class="btn btn-outline-primary plitochka" (click)="red(off)"
+                            style="height: 95%; margin-bottom: 5%;">
+                            <div>Имя {{off.offeringName}}</div>
+                            <div>Описание {{off.offeringDescription}}</div>
+                            <div>Владелец {{off.customerName}}</div>
+                            <div>Максимальное количество {{off.offeringMaxCount}}</div>
+                            <div>Тип {{off.offeringType}}</div>
+                            <div>Стоимость {{off.offeringPrice}}</div>
+                        </button>
                     </div>
                 </div>
             </div>
-            <div class="row" [hidden]="!redact">
-                <div class="form-outline">
-                    <label class="form-label" for="Name">Name</label>
-                    <input type="text" id="Name" class="form-control" [(ngModel)]="redOffering.name" />
+            <div class="row" [hidden]="!redact || redactN">
+                <div class="col-md-3">
+                    <label class="form-label" for="Name" style="width: 100%;">Name</label>
+                    <input type="text" id="Name" class="form-control" [(ngModel)]="redOffering.offeringName" style="width: 100%;"/>
                 </div>
-                <div class="form-outline">
-                    <label class="form-label" for="Discription">Discription</label>
-                    <input type="text" id="Discription" class="form-control" [(ngModel)]="redOffering.discription" />
+                <div class="col-md-4">
+                    <label class="form-label" for="offeringDescription"style="width: 100%;" >offeringDescription</label>
+                    <input type="text" id="offeringDescription" class="form-control"
+                        [(ngModel)]="redOffering.offeringDescription" style="width: 100%;"/>
                 </div>
-                <div class="form-outline">
-                    <label class="form-label" for="MaxCount">Max Count</label>
-                    <input type="number" id="MaxCount" class="form-control" [(ngModel)]="redOffering.maxCount" />
+                <div class="col-md-4">
+                    <label class="form-label" for="offeringMaxCount" style="width: 100%;">Max Count</label>
+                    <input type="number" id="offeringMaxCount" class="form-control" min=0
+                        [(ngModel)]="redOffering.offeringMaxCount" style="width: 100%;"/>
                 </div>
-                <div class="form-outline">
-                    <label class="form-label" for="MaxCount">Type</label>
-                    <select class="browser-default custom-select" [(ngModel)]="redOffering.type" name="red_type">
-                        <option *ngFor="let type of types; " value="{{type}}">{{type.name}}</option>
+                <div class="col-md-4">
+                    <label class="form-label" for="Price" style="width: 100%;" >Price</label>
+                    <input type="number" id="Price" class="form-control" min=0
+                        [(ngModel)]="redOffering.offeringPrice" style="width: 100%;"/>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="offType" style="width: 100%;">Type</label>
+                    <select class="browser-default custom-select" [(ngModel)]="redOffering.offeringType"
+                        name="red_type" style="width: 100%;">
+                        <option *ngFor="let type of types; " value="{{type}}">{{type}}</option>
                     </select>
                 </div>
-                <button type="button" class="btn btn-success btn-sm" (click)="save()">
-                    Save
-                </button>
             </div>
+            <div class="row" [hidden]="!redact || redactN">
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-success btn-sm" (click)="save()" style="width: 100%; height: 100%;">
+                        Save
+                    </button>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-danger btn-sm" (click)="cancel()" style="width: 100%; height: 100%;">
+                        Cancel
+                    </button>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-danger btn-sm" (click)="delete(redOffering)"
+                        style="width: 100%; height: 100%;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-trash" viewBox="0 0 16 16">
+                            <path
+                                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                            <path fill-rule="evenodd"
+                                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="row" [hidden]="!redactN">
+                <div class="col-md-3">
+                    <label class="form-label" for="offeringMaxCount" style="width: 100%;">Накрутка</label>
+                    <input type="number" id="offeringMaxCount" class="form-control"
+                        [(ngModel)]="nac" style="width: 100%;"/>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="offType" style="width: 100%;">Type</label>
+                    <select class="browser-default custom-select" [(ngModel)]="nacType"
+                        name="red_type" style="width: 100%;">
+                        <option *ngFor="let type of types; " value="{{type}}">{{type}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row" [hidden]="!redactN">
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-success btn-sm" (click)="saveNak()" style="width: 100%; height: 100%;">
+                        Save
+                    </button>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-danger btn-sm" (click)="cancelNak()" style="width: 100%; height: 100%;">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

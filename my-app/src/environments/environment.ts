@@ -7,15 +7,16 @@ export const environment = {
   envName: 'local',
   keycloak: {
     // Url of the Identity Provider
-    issuer: 'http://192.168.16.136:8080/auth/realms/quarkus',
+    //issuer: 'http://192.168.16.136:8080/auth/realms/quarkus',
+    issuer: 'http://10.0.0.2:8080/auth/realms/quarkus',
     //issuer: '/auth/realms/Quarkus',
     // URL of the SPA to redirect the user to after login
-    redirectUri: 'http://192.168.16.100:4200/',
-
+    //redirectUri: 'http://192.168.16.100:4200/',
+    redirectUri: 'http://10.0.0.9:4200/',
     // The SPA's id. 
     // The SPA is registerd with this id at the auth-serverß
-    clientId: 'todo-ui',
-
+    //clientId: 'todo-ui',
+    clientId:'front-end',
     responseType: 'code',
     // set the scope for the permissions the client should request
     // The first three are defined by OIDC.

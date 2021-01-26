@@ -4,8 +4,8 @@ import { map } from 'rxjs/internal/operators/map';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { RestService } from 'src/app/services/rest-service.service';
+import { Offering } from '../catalog/catalog.component'
 import { AuthService } from 'src/app/services/auth.service';
-import { OAuthService } from 'angular-oauth2-oidc';
 
 @Component({
   selector: 'app-pricelist',
@@ -14,71 +14,105 @@ import { OAuthService } from 'angular-oauth2-oidc';
 })
 export class PricelistComponent implements OnInit {
 
+  public isAdmin: boolean = false;
+  customer : String = "";
+  customers: String[] = [];
 
-  customer:number = 1;
-  customers = [
-    {
-      id: 1,
-      name: "Customer 1"
-    },
-    {
-      id: 2,
-      name: "Customer 2"
-    },
-    {
-      id: 3,
-      name: "Customer 3"
-    },
-    {
-      id: 4,
-      name: "Customer 4"
-    },
-    {
-      id: 5,
-      name: "Customer 5"
-    }
-  ]
+  type : String = "";
+  types : String[] = [];
 
-  type:number = 1;
-  types = [
-    {
-      id: 1,
-      name: "type 1"
-    },
-    {
-      id: 2,
-      name: "type 2"
-    },
-    {
-      id: 3,
-      name: "type 3"
-    },
-    {
-      id: 4,
-      name: "type 4"
-    },
-    {
-      id: 5,
-      name: "type 5"
-    }
-  ]
+  offering: number = 1;
+  offerings: Offering[] | any = []
 
-  constructor(private http: HttpClient, private restService : RestService, private authService : OAuthService) { }
+  constructor(private http: HttpClient, private restService : RestService, private authService : AuthService) { 
+    this.getCustomers();
+    this.getOfferings();
+    this.getTypes();
+    this.loadTotalBasket();
+    this.isAdmin = authService.isAdmin();
+  }
 
   ngOnInit(): void {
   }
 
-
-  getFruits(){
-    this.restService.doGet('/api/users/me')
+  loadTotalBasket(){
+    this.restService._doGet("/priceList/getTotalByBuyer").subscribe(
+      data => { this.busket = data },
+      error => { console.log(error) }
+    );
   }
 
-  postFruits(){
-    const params = this.authService.getAccessToken;
-    this.restService.doGet('/api/admin');
+  loadOfferings(){
+    this.restService._doGet("/priceList/getOfferingToPageWithCheat").subscribe(
+      data => { this.offerings = data },
+      error => { console.log(error) }
+    );
   }
 
-  logCustomerAndType(){
-    console.log(this.customer, " | " ,this.type)
+  getOfferings(){
+    const param = {
+      customer: null,
+      offeringType: null,
+      offeringCount: 40,
+      pageNumber: 0
+    }
+    this.restService._doGet("/priceList/getOfferingsFromBD").subscribe(
+      data => { this.offerings = data },
+      error => { console.log(error) }
+    );
+  }
+
+  getTypes(){
+    this.restService._doGet("/offering/allResourseTypes").subscribe(
+      data => { 
+        this.types = data 
+        this.type = this.types[0];
+        this.types.length = this.types.length + 1
+        this.types[this.types.length - 1] = ""
+      },
+      error => { console.log(error) }
+    );
+  }
+
+  getCustomers(){
+    this.restService._doGet("/offering/allCustomers").subscribe(
+      data => { 
+        this.customers = data
+        this.customer = this.customers[0];
+        this.customers.length = this.customers.length + 1
+        this.customers[this.customers.length - 1] = ""
+      },
+      error => { console.log(error) }
+    );
+  }
+
+  accessFilter() {
+    const param = {
+      customer: this.customer,
+      offeringType: this.type,
+      offeringCount: 40,
+      pageNumber: 0
+    }
+    this.restService._doPost("/offering/getOfferingToPage", param).subscribe(
+      data => { 
+        this.offerings = data
+      },
+      error => { console.log(error) }
+    );
+  }
+
+  busket: any = {
+    _itemCount: 0,
+    _totalCost: 0
+  };
+
+  addOnCart(off : Offering){
+    console.log(off);
+    this.restService._doPost("/priceList/addItemToBasket", off).subscribe(
+      data => { 
+        this.busket = data
+      },
+      error => { console.log(error) }
+    );
   }
 }

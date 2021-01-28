@@ -107,25 +107,45 @@ export class CatalogComponent implements OnInit {
 
   save() {
     if (this.addOfferinbg == true) {
-      console.log(this.redOffering)
-      this.restService.doPost("offering/addOffering", this.redOffering);
+      this.restService._doPost("/offering/addOffering", this.redOffering).subscribe(
+        data => { 
+          this.offerings = data
+          this.addOfferinbg = false;
+          this.redact = false;
+          const param = {
+            customer: null,
+            offeringType: null,
+            offeringCount: 40,
+            pageNumber: 0
+          }
+          this.restService._doPost("/offering/getOfferingToPage", param).subscribe(
+            data => { this.offerings = data },
+            error => { console.log(error) }
+          );
+        },
+        error => { console.log(error) }
+      );
     }
     else {
-      console.log(this.redOffering)
-      this.restService.doPost("offering/updateOffering", this.redOffering);
+      this.restService._doPost("/offering/updateOffering", this.redOffering).subscribe(
+        data => { 
+          this.offerings = data
+          this.addOfferinbg = false;
+          this.redact = false;
+          const param = {
+            customer: null,
+            offeringType: null,
+            offeringCount: 40,
+            pageNumber: 0
+          }
+          this.restService._doPost("/offering/getOfferingToPage", param).subscribe(
+            data => { this.offerings = data },
+            error => { console.log(error) }
+          );
+        },
+        error => { console.log(error) }
+      );
     }
-    this.addOfferinbg = false;
-    this.redact = false;
-    const param = {
-      customer: this.customer,
-      offeringType: this.type,
-      offeringCount: 40,
-      pageNumber: 0
-    }
-    this.restService._doPost("/offering/getOfferingToPage", param).subscribe(
-      data => { this.offerings = data },
-      error => { console.log(error) }
-    );
   }
 
   redactN: boolean = false;

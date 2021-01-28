@@ -63,7 +63,7 @@ export class PricelistComponent implements OnInit {
   }
 
   getTypes(){
-    this.restService._doGet("/offering/allResourseTypes").subscribe(
+    this.restService._doGet("/priceList/allResourseTypes").subscribe(
       data => { 
         this.types = data 
         this.type = this.types[0];
@@ -75,7 +75,7 @@ export class PricelistComponent implements OnInit {
   }
 
   getCustomers(){
-    this.restService._doGet("/offering/allCustomers").subscribe(
+    this.restService._doGet("/priceList/allCustomers").subscribe(
       data => { 
         this.customers = data
         this.customer = this.customers[0];
@@ -93,7 +93,7 @@ export class PricelistComponent implements OnInit {
       offeringCount: 40,
       pageNumber: 0
     }
-    this.restService._doPost("/offering/getOfferingToPage", param).subscribe(
+    this.restService._doPost("/priceList/getOfferingToPage", param).subscribe(
       data => { 
         this.offerings = data
       },

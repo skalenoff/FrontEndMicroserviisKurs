@@ -9,7 +9,7 @@ import { RequestsComponent } from './pages/requests/requests.component'
  * Задаются пути до компонентов
  */
 const routes: Routes = [
-  { path: 'events', component: EventsComponent },
+  { path: 'event', component: EventsComponent },
   { path: 'pricelist', component: PricelistComponent },
   { path: 'catalog', component: CatalogComponent },
   { path: 'requests', component: RequestsComponent }

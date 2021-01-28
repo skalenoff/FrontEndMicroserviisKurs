@@ -31,8 +31,8 @@ export class RequestsComponent implements OnInit {
   deleteFromBusket(obj : BusketItem){
     this.restService._doPost("/priceList/deleteItemFromBasket", obj).subscribe(
       data => { 
-        console.log(data)
         this.getBusket(); 
+        console.log(data)
       },
       error => { console.log(error) }
     );
@@ -48,6 +48,27 @@ export class RequestsComponent implements OnInit {
       error => { console.log(error) }
     );
     
+  }
+
+  deal(){
+    this.restService._doPost("/events/addToHistory", this.items).subscribe(
+      data => { 
+        console.log(data)
+      },
+      error => { console.log(error) }
+    );
+    this.items.forEach(element => {
+      this.restService._doPost("/priceList/deleteItemFromBasket", element).subscribe(
+        data => { 
+          console.log(data)
+          this.restService._doGet("/priceList/getBuyersBasket").subscribe(
+            data => { this.items = data },
+            error => { console.log(error) }
+          );
+        },
+        error => { console.log(error) }
+      );
+    });
   }
 
   ngOnInit(): void {

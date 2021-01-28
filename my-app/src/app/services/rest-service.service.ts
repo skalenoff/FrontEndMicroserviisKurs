@@ -36,8 +36,6 @@ export class RestService {
       );
     return this.http.get(url, { headers: jsonHeaders })
       .pipe(map((res: any) => {
-        console.log("Метод", url);
-          console.log(res);
           this.response = res;
           return res;
         })
@@ -62,9 +60,6 @@ export class RestService {
     };
     return this.http.post(url, params,{ headers: jsonHeaders })
       .pipe(map((response) => {
-        console.log("Метод", url);
-        console.log(params);
-        console.log(response)
         this.response = response;
         return response;
       }));
